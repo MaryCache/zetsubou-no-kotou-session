@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>絶望の孤島 — 第3陣 セッションログ</title>
+  <!-- JS有効時のみアニメーション初期状態(opacity:0等)を適用するためのフラグ -->
+  <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -695,6 +697,337 @@
         left: -2.3rem;
       }
     }
+
+    /* ──────────────────────────
+       ─── ANIMATION LAYER ───
+       1. SECTION REVEAL  (霧から浮かぶ登場)
+       2. TIMELINE        (縦線描画 + ドット点灯)
+       3. NODENS          (引用ゆらぎ + 海面波紋)
+       4. EPILOGUE        (銀の鍵9回ひねり)
+       5. COMPASS NAV     (羅針盤型スクロールナビ)
+       ────────────────────────── */
+
+    /* === 1. SECTION REVEAL === */
+    /* html.js プレフィックスで JS 有効時のみ隠す。JS 無効環境では普通に表示される */
+    html.js .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition:
+        opacity 1.1s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: opacity, transform;
+    }
+
+    html.js .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    html.js .reveal-stagger {
+      opacity: 0;
+      transform: translateY(22px);
+      transition:
+        opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: opacity, transform;
+    }
+
+    html.js .reveal-stagger.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* === 2. TIMELINE: 縦線が上から下へ伸びる === */
+    /* 既存の border-left を疑似要素に置き換えて、scaleY で描画 */
+    html.js .timeline-track {
+      border-left: none !important;
+    }
+
+    html.js .timeline-track::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 100%;
+      background: var(--gold);
+      transform-origin: top;
+      transform: scaleY(0);
+      transition: transform 2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    html.js .timeline.is-visible .timeline-track::before {
+      transform: scaleY(1);
+    }
+
+    /* タイムラインのドット: 初期は縮んでいて、stagger で点灯 */
+    html.js .timeline-item::before {
+      transform: scale(0);
+      transition:
+        transform 0.6s cubic-bezier(0.5, 1.6, 0.4, 1),
+        box-shadow 0.6s ease;
+    }
+
+    html.js .timeline-item.is-visible::before {
+      transform: scale(1);
+      box-shadow:
+        0 0 0 1px var(--gold),
+        0 0 14px rgba(200, 161, 85, 0.6);
+    }
+
+    /* === 3. NODENS: 引用文のゆらぎ + 海面波紋 === */
+    .nodens {
+      overflow: hidden;
+    }
+
+    /* 海面の波紋（ゆっくり広がって消える） */
+    .nodens::after {
+      content: "";
+      position: absolute;
+      top: 18%;
+      left: 50%;
+      width: 600px;
+      height: 600px;
+      margin-left: -300px;
+      margin-top: -300px;
+      border: 1px solid rgba(200, 161, 85, 0.18);
+      border-radius: 50%;
+      animation: ripple 7s ease-out infinite;
+      pointer-events: none;
+    }
+
+    .nodens > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0.4);
+        opacity: 0;
+      }
+      30% {
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.6);
+        opacity: 0;
+      }
+    }
+
+    /* 引用がふわっと上下に揺れる（海中の声のように） */
+    .nodens-quote {
+      animation: drift 6s ease-in-out infinite;
+    }
+
+    @keyframes drift {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    /* === 4. EPILOGUE: 銀の鍵が9回ひねられる === */
+    .epilogue-end {
+      position: relative;
+      display: inline-block;
+    }
+
+    .epilogue-end::before {
+      content: "";
+      display: inline-block;
+      width: 1.1em;
+      height: 1.1em;
+      margin-right: 0.5em;
+      vertical-align: -0.18em;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c8a155' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'><circle cx='8' cy='12' r='4.5'/><circle cx='8' cy='12' r='1.4' fill='%23c8a155'/><line x1='12.5' y1='12' x2='21' y2='12'/><line x1='17' y1='12' x2='17' y2='16'/><line x1='20' y1='12' x2='20' y2='15'/></svg>");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      transform-origin: 36% center;
+    }
+
+    .epilogue.is-visible .epilogue-end::before {
+      animation: keyTurn 4.5s steps(9) 0.4s 1 forwards;
+    }
+
+    @keyframes keyTurn {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(810deg); }  /* 9回 × 90° = 810° */
+    }
+
+    /* === 5. COMPASS NAV: 羅針盤型スクロールナビ === */
+    .compass-nav {
+      position: fixed;
+      bottom: 1.6rem;
+      right: 1.6rem;
+      width: 118px;
+      height: 118px;
+      z-index: 80;
+      filter: drop-shadow(0 10px 22px rgba(15, 29, 45, 0.4));
+      transition:
+        opacity 0.7s ease,
+        transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+      user-select: none;
+    }
+
+    /* JS有効時のみ初期は非表示 (HEROでは隠れていてほしい) */
+    html.js .compass-nav {
+      opacity: 0;
+      transform: translateY(20px) scale(0.92);
+    }
+
+    html.js .compass-nav.is-active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .compass-nav svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* 羅針盤本体: 二重円 + 八方位 */
+    .compass-bg {
+      fill: var(--sea-deep);
+    }
+
+    .compass-ring {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 1;
+      opacity: 0.7;
+    }
+
+    .compass-ring-inner {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 0.6;
+      opacity: 0.45;
+    }
+
+    /* 八方位の細い目盛り */
+    .compass-tick {
+      stroke: var(--gold);
+      stroke-width: 0.7;
+      opacity: 0.5;
+    }
+
+    .compass-tick-major {
+      stroke-width: 1;
+      opacity: 0.75;
+    }
+
+    /* 北の三角マーク (N) */
+    .compass-north {
+      fill: var(--crimson);
+      opacity: 0.85;
+    }
+
+    .compass-cardinal {
+      font-family: "Cinzel", serif;
+      font-size: 7px;
+      font-weight: 600;
+      fill: var(--gold);
+      opacity: 0.7;
+      text-anchor: middle;
+      dominant-baseline: central;
+      letter-spacing: 0.05em;
+    }
+
+    /* 章マーカー (I, II, III, IV, V) */
+    .compass-marker {
+      cursor: pointer;
+      transform-origin: center;
+    }
+
+    .compass-marker-dot {
+      fill: var(--paper-deep);
+      stroke: var(--gold);
+      stroke-width: 0.6;
+      transition: fill 0.4s, r 0.4s, stroke-width 0.4s;
+    }
+
+    .compass-marker:hover .compass-marker-dot {
+      fill: var(--gold-soft);
+    }
+
+    .compass-marker.active .compass-marker-dot {
+      fill: var(--gold);
+      stroke-width: 1.4;
+    }
+
+    .compass-marker-label {
+      font-family: "Cinzel", serif;
+      font-size: 5.5px;
+      font-weight: 700;
+      fill: var(--paper);
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+      letter-spacing: 0.04em;
+      transition: fill 0.4s;
+    }
+
+    .compass-marker.active .compass-marker-label {
+      fill: var(--ink);
+    }
+
+    /* 針 (中心の菱形) */
+    .compass-needle {
+      transform-origin: 100px 100px;
+      transition: transform 1.3s cubic-bezier(0.2, 0.85, 0.25, 1);
+    }
+
+    .compass-needle-north {
+      fill: var(--gold);
+    }
+
+    .compass-needle-south {
+      fill: var(--ink);
+      opacity: 0.55;
+    }
+
+    .compass-pivot {
+      fill: var(--gold);
+      stroke: var(--sea-deep);
+      stroke-width: 1.2;
+    }
+
+    /* ホバーで全体がわずかに反応 */
+    .compass-nav:hover {
+      filter: drop-shadow(0 12px 26px rgba(15, 29, 45, 0.5));
+    }
+
+    /* モバイル */
+    @media (max-width: 600px) {
+      .compass-nav {
+        width: 86px;
+        height: 86px;
+        bottom: 1rem;
+        right: 1rem;
+      }
+    }
+
+    /* モーション軽減: prefers-reduced-motion 対応 */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal,
+      .reveal-stagger,
+      .compass-nav,
+      .compass-needle,
+      .timeline-track::before,
+      .timeline-item::before {
+        transition-duration: 0.01ms !important;
+      }
+      .nodens::after,
+      .nodens-quote,
+      .epilogue.is-visible .epilogue-end::before {
+        animation: none !important;
+      }
+    }
   </style>
 </head>
 
@@ -1067,6 +1400,235 @@
   <footer>
     ZETSUBOU NO KOTOU · 3RD PARTY · CALL OF CTHULHU SESSION LOG
   </footer>
+
+  <!-- ━━━ 羅針盤ナビ (Compass Navigator) ━━━ -->
+  <nav class="compass-nav" aria-label="章ナビゲーション">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- 背景 -->
+      <circle class="compass-bg" cx="100" cy="100" r="94" />
+
+      <!-- 二重円 -->
+      <circle class="compass-ring" cx="100" cy="100" r="92" />
+      <circle class="compass-ring-inner" cx="100" cy="100" r="80" />
+      <circle class="compass-ring-inner" cx="100" cy="100" r="62" />
+
+      <!-- 八方位の目盛り (8本) -->
+      <g>
+        <!-- N, E, S, W (主目盛り) -->
+        <line class="compass-tick compass-tick-major" x1="100" y1="8"   x2="100" y2="20" />
+        <line class="compass-tick compass-tick-major" x1="192" y1="100" x2="180" y2="100" />
+        <line class="compass-tick compass-tick-major" x1="100" y1="192" x2="100" y2="180" />
+        <line class="compass-tick compass-tick-major" x1="8"   y1="100" x2="20"  y2="100" />
+        <!-- NE, SE, SW, NW (副目盛り、45°ごと) -->
+        <line class="compass-tick" x1="165.05" y1="34.95" x2="156.57" y2="43.43" />
+        <line class="compass-tick" x1="165.05" y1="165.05" x2="156.57" y2="156.57" />
+        <line class="compass-tick" x1="34.95" y1="165.05" x2="43.43" y2="156.57" />
+        <line class="compass-tick" x1="34.95" y1="34.95" x2="43.43" y2="43.43" />
+      </g>
+
+      <!-- 北の赤い三角マーク -->
+      <polygon class="compass-north" points="100,16 95,26 105,26" />
+
+      <!-- カーディナル文字 (控えめに E/S/W のみ) -->
+      <text class="compass-cardinal" x="100" y="32">N</text>
+      <text class="compass-cardinal" x="172" y="100">E</text>
+      <text class="compass-cardinal" x="100" y="170">S</text>
+      <text class="compass-cardinal" x="28"  y="100">W</text>
+
+      <!-- 章マーカー (5個、72°間隔、半径72) -->
+      <!-- I  (0°)   → (100, 28) -->
+      <!-- II (72°)  → (168.48, 77.75) -->
+      <!-- III(144°) → (142.32, 158.25) -->
+      <!-- IV (216°) → (57.68, 158.25) -->
+      <!-- V  (288°) → (31.52, 77.75) -->
+      <g class="compass-marker" data-section="0" data-target=".story" role="button" tabindex="0" aria-label="第I章 あらすじ">
+        <circle class="compass-marker-dot" cx="100" cy="50" r="7" />
+        <text class="compass-marker-label" x="100" y="50">I</text>
+        <title>I — あらすじ</title>
+      </g>
+      <g class="compass-marker" data-section="1" data-target=".timeline" role="button" tabindex="0" aria-label="第II章 航跡">
+        <circle class="compass-marker-dot" cx="148.45" cy="84.85" r="7" />
+        <text class="compass-marker-label" x="148.45" y="84.85">II</text>
+        <title>II — あの日の航跡</title>
+      </g>
+      <g class="compass-marker" data-section="2" data-target=".characters" role="button" tabindex="0" aria-label="第III章 登場人物">
+        <circle class="compass-marker-dot" cx="129.97" cy="141.13" r="7" />
+        <text class="compass-marker-label" x="129.97" y="141.13">III</text>
+        <title>III — 登場人物</title>
+      </g>
+      <g class="compass-marker" data-section="3" data-target=".highlights" role="button" tabindex="0" aria-label="第IV章 名場面">
+        <circle class="compass-marker-dot" cx="70.03" cy="141.13" r="7" />
+        <text class="compass-marker-label" x="70.03" y="141.13">IV</text>
+        <title>IV — 名場面ピックアップ</title>
+      </g>
+      <g class="compass-marker" data-section="4" data-target=".nodens" role="button" tabindex="0" aria-label="第V章 ノーデンス">
+        <circle class="compass-marker-dot" cx="51.55" cy="84.85" r="7" />
+        <text class="compass-marker-label" x="51.55" y="84.85">V</text>
+        <title>V — 海神ノーデンスの恩寵</title>
+      </g>
+
+      <!-- 針 (北側=金、南側=暗藍) -->
+      <g class="compass-needle">
+        <polygon class="compass-needle-north" points="100,46 95,100 105,100" />
+        <polygon class="compass-needle-south" points="100,154 95,100 105,100" />
+      </g>
+
+      <!-- 中央の支点 -->
+      <circle class="compass-pivot" cx="100" cy="100" r="4" />
+    </svg>
+  </nav>
+
+  <!-- ━━━ アニメーション制御 ━━━ -->
+  <script>
+    (function () {
+      'use strict';
+
+      // ─── prefers-reduced-motion: 動きを抑える設定の人にはアニメ最小化 ───
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // ─── 1. SECTION REVEAL: 各セクションの登場演出 ───
+
+      // メインの大セクションには .reveal を付与
+      const mainSections = document.querySelectorAll(
+        '.story, .timeline, .characters, .highlights, .nodens, .epilogue'
+      );
+      mainSections.forEach(sec => sec.classList.add('reveal'));
+
+      // 中身の要素には .reveal-stagger を付与し、stagger 用 delay を設定
+      function staggerWithin(parent, selector, step) {
+        if (!parent) return;
+        const items = parent.querySelectorAll(selector);
+        items.forEach((el, i) => {
+          el.classList.add('reveal-stagger');
+          el.style.transitionDelay = `${i * step}s`;
+        });
+      }
+
+      staggerWithin(document.querySelector('.timeline-track'),  '.timeline-item', 0.12);
+      staggerWithin(document.querySelector('.char-grid'),       '.char-card',     0.08);
+      staggerWithin(document.querySelector('.h-grid'),          '.h-card',        0.08);
+      staggerWithin(document.querySelector('.wishes'),          '.wish',          0.07);
+
+      // IntersectionObserver: 一度ビューに入ったら is-visible を付け、解除
+      const revealIO = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            revealIO.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+      document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => revealIO.observe(el));
+
+      // ─── 2. COMPASS NAV: 羅針盤型スクロールナビ ───
+
+      const compassNav = document.querySelector('.compass-nav');
+      const needle     = document.querySelector('.compass-needle');
+      const markers    = document.querySelectorAll('.compass-marker');
+
+      // 章とその角度の対応 (北=0°, 時計回り)
+      const navSections = [
+        { selector: '.story',      angle:   0 },
+        { selector: '.timeline',   angle:  72 },
+        { selector: '.characters', angle: 144 },
+        { selector: '.highlights', angle: 216 },
+        { selector: '.nodens',     angle: 288 },
+      ];
+
+      // 針の現在角度を保持し、最短経路で回転させる
+      // (例: 288° → 0° は +72° で回転、-288° ではない)
+      let needleAngle = 0;
+      function setNeedleAngle(targetDeg) {
+        let diff = ((targetDeg - needleAngle + 540) % 360) - 180;
+        needleAngle += diff;
+        needle.style.transform = `rotate(${needleAngle}deg)`;
+      }
+
+      // 現在表示中のセクションを判定して針とマーカーを更新
+      let activeIdx = -1;
+      function updateActive(idx) {
+        if (idx === activeIdx) return;
+        activeIdx = idx;
+        markers.forEach((m, i) => m.classList.toggle('active', i === idx));
+        if (idx >= 0) {
+          setNeedleAngle(navSections[idx].angle);
+        }
+      }
+
+      // 章セクションを観察して、ビューポートに最も入っているものを active に
+      const navObservedEls = navSections.map(s => document.querySelector(s.selector));
+      const visibilityRatios = new Array(navSections.length).fill(0);
+
+      const navIO = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          const idx = navObservedEls.indexOf(e.target);
+          if (idx >= 0) visibilityRatios[idx] = e.intersectionRatio;
+        });
+
+        // 最も可視率が高いセクションを active にする
+        let bestIdx = -1;
+        let bestRatio = 0.05; // 微量しか見えていないときは反応させない閾値
+        visibilityRatios.forEach((r, i) => {
+          if (r > bestRatio) { bestRatio = r; bestIdx = i; }
+        });
+
+        if (bestIdx >= 0) {
+          updateActive(bestIdx);
+          compassNav.classList.add('is-active');
+        } else {
+          // どの章にも入っていない (HEROやFOOTER付近) → ナビは表示維持、active解除のみ
+          // ただし HERO のときは隠す
+          const scrollY = window.scrollY;
+          const heroEl = document.querySelector('.hero');
+          if (heroEl && scrollY < heroEl.offsetHeight * 0.55) {
+            compassNav.classList.remove('is-active');
+          }
+        }
+      }, { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] });
+
+      navObservedEls.forEach(el => { if (el) navIO.observe(el); });
+
+      // マーカークリックで該当章にスムーズスクロール
+      markers.forEach((m) => {
+        const target = m.getAttribute('data-target');
+        const handler = () => {
+          const el = document.querySelector(target);
+          if (el) {
+            el.scrollIntoView({
+              behavior: prefersReduced ? 'auto' : 'smooth',
+              block: 'start'
+            });
+          }
+        };
+        m.addEventListener('click', handler);
+        m.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            handler();
+          }
+        });
+      });
+
+      // 初期: HERO を抜けたタイミングでナビをふわっと出す
+      const heroEl = document.querySelector('.hero');
+      if (heroEl) {
+        const heroIO = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            // hero がほぼ画面外に出たら表示
+            if (!e.isIntersecting || e.intersectionRatio < 0.4) {
+              compassNav.classList.add('is-active');
+            } else {
+              compassNav.classList.remove('is-active');
+            }
+          });
+        }, { threshold: [0, 0.4, 0.8] });
+        heroIO.observe(heroEl);
+      } else {
+        compassNav.classList.add('is-active');
+      }
+    })();
+  </script>
 
 </body>
 
