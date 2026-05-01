@@ -1,1 +1,1073 @@
-<html><body><h1>test modified</h1></body></html>
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>絶望の孤島 — 第3陣 セッションログ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+JP:wght@400;600;900&family=Zen+Maru+Gothic:wght@400;500;700&family=Cinzel:wght@500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0f1d2d;
+      --paper: #f3ead4;
+      --paper-deep: #e8dcb8;
+      --sea: #1a3a52;
+      --sea-deep: #0a1f33;
+      --gold: #c8a155;
+      --gold-soft: #e0c585;
+      --crimson: #8b2c2c;
+      --moss: #4a5d3a;
+      --shadow: rgba(15, 29, 45, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Zen Maru Gothic", "Noto Serif JP", serif;
+      background: var(--paper);
+      background-image:
+        radial-gradient(circle at 20% 10%, rgba(200, 161, 85, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(26, 58, 82, 0.06) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.11 0 0 0 0 0.18 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+      color: var(--ink);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 92vh;
+      background:
+        linear-gradient(180deg, rgba(10, 31, 51, 0.85) 0%, rgba(15, 29, 45, 0.92) 100%),
+        radial-gradient(ellipse at 50% 80%, rgba(200, 161, 85, 0.18) 0%, transparent 60%);
+      color: var(--paper);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding: 4rem 2rem;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23c8a155' stroke-width='0.5' opacity='0.15'%3E%3Ccircle cx='300' cy='300' r='200'/%3E%3Ccircle cx='300' cy='300' r='150'/%3E%3Ccircle cx='300' cy='300' r='100'/%3E%3Cpath d='M100 300 L500 300 M300 100 L300 500'/%3E%3Cpath d='M158 158 L442 442 M442 158 L158 442'/%3E%3C/g%3E%3C/svg%3E");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 80vmin;
+      animation: spin 120s linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .hero-meta {
+      font-family: "Cinzel", serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 1s ease-out both;
+    }
+
+    .hero-title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 9vw, 7rem);
+      letter-spacing: 0.15em;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 4px 30px rgba(200, 161, 85, 0.3);
+      animation: fadeInUp 1.2s ease-out 0.2s both;
+    }
+
+    .hero-title span {
+      display: block;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      color: var(--gold-soft);
+      margin-top: 1.5rem;
+      max-width: 580px;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 1.4s ease-out 0.4s both;
+    }
+
+    .hero-info {
+      margin-top: 3rem;
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 1.6s ease-out 0.6s both;
+    }
+
+    .hero-info>div {
+      border-top: 1px solid var(--gold);
+      padding-top: 0.8rem;
+      min-width: 140px;
+    }
+
+    .hero-info-label {
+      font-family: "Cinzel", serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .hero-info-value {
+      font-size: 1.05rem;
+      color: var(--paper);
+      margin-top: 0.3rem;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ─── SECTION COMMON ─── */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+      position: relative;
+    }
+
+    .section-num {
+      font-family: "Cinzel", serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .section-title-en {
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--sea);
+      margin-bottom: 3rem;
+      opacity: 0.6;
+    }
+
+    .divider {
+      width: 80px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 0 3rem 0;
+      position: relative;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      transform: translateY(-50%);
+    }
+
+    /* ドットを線にぴったり乗せず、6px外側に浮かせる。
+     線とドットを離すことで「装飾としての句読点」感を出す意図 */
+    .divider::before {
+      left: -8px;
+    }
+
+    .divider::after {
+      right: -8px;
+    }
+
+    /* ─── あらすじ ─── */
+    .story {
+      background: linear-gradient(180deg, var(--paper) 0%, var(--paper-deep) 100%);
+    }
+
+    .story-text {
+      font-family: "Noto Serif JP", serif;
+      font-size: 1.1rem;
+      line-height: 2.2;
+      max-width: 760px;
+      color: var(--ink);
+    }
+
+    .story-text p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* 1段落目の冒頭1文字だけドロップキャップにする。
+     全段落に効かせて打ち消す書き方より、最初から1段落目に絞るほうが意図が読み取りやすい */
+    .story-text p:first-of-type::first-letter {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 3em;
+      float: left;
+      line-height: 0.9;
+      margin: 0.1em 0.1em 0 0;
+      color: var(--gold);
+    }
+
+    /* ─── タイムライン ─── */
+    .timeline {
+      background: var(--sea-deep);
+      color: var(--paper);
+      position: relative;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .timeline>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .timeline .section-title {
+      color: var(--paper);
+    }
+
+    .timeline .section-title-en {
+      color: var(--gold-soft);
+    }
+
+    .timeline-track {
+      position: relative;
+      padding-left: 2.5rem;
+      border-left: 1px solid var(--gold);
+      margin-left: 1rem;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 3rem;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      /* 円(直径12px)の中心を縦のタイムライン軸(border-left:1px)に合わせるための位置。
+       内訳: -(.timeline-track の padding-left 2.5rem) - (border 1px) - (円の半径 6px) */
+      left: -2.94rem;
+      top: 0.4rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 3px solid var(--sea-deep);
+      box-shadow: 0 0 0 1px var(--gold);
+    }
+
+    .timeline-act {
+      font-family: "Cinzel", serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-head {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      font-size: 1.4rem;
+      color: var(--paper);
+      margin-bottom: 0.7rem;
+    }
+
+    .timeline-body {
+      color: var(--gold-soft);
+      line-height: 2;
+      max-width: 700px;
+    }
+
+    .roll {
+      display: inline-block;
+      font-family: "Cinzel", serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      padding: 0.15em 0.6em;
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      margin: 0 0.2em;
+      color: var(--gold);
+    }
+
+    .roll.fail {
+      color: var(--crimson);
+      border-color: var(--crimson);
+    }
+
+    .roll.crit {
+      color: #fff;
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    /* ─── キャラクター ─── */
+    .characters {
+      background: var(--paper);
+    }
+
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .char-card {
+      background: #fcf6e4;
+      border: 1px solid var(--paper-deep);
+      border-radius: 2px;
+      padding: 2rem 1.8rem;
+      position: relative;
+      box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.04),
+        0 8px 24px -8px var(--shadow);
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s;
+    }
+
+    .char-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.04),
+        0 18px 40px -12px var(--shadow);
+    }
+
+    /* 右上と左下の対角2隅だけにコーナー罫線を入れる。
+     四隅すべてに入れると囲み枠になりすぎるため、
+     古文書の証書のような「対角だけのコーナー装飾」で軽やかに見せる意図 */
+    .char-card::before {
+      content: "";
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 30px;
+      height: 30px;
+      border-top: 1px solid var(--gold);
+      border-right: 1px solid var(--gold);
+      opacity: 0.5;
+    }
+
+    .char-card::after {
+      content: "";
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      width: 30px;
+      height: 30px;
+      border-bottom: 1px solid var(--gold);
+      border-left: 1px solid var(--gold);
+      opacity: 0.5;
+    }
+
+    .char-tag {
+      font-family: "Cinzel", serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .char-name {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      line-height: 1.3;
+      margin-bottom: 0.3rem;
+    }
+
+    .char-reading {
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      color: var(--sea);
+      opacity: 0.7;
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+    }
+
+    .char-epithet {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--gold-soft);
+      padding: 0.2em 0.8em;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+    }
+
+    .char-desc {
+      font-size: 0.92rem;
+      line-height: 1.9;
+      color: var(--ink);
+      margin-bottom: 1.2rem;
+    }
+
+    .char-quote {
+      font-family: "Noto Serif JP", serif;
+      font-size: 0.88rem;
+      color: var(--sea);
+      border-left: 2px solid var(--gold);
+      padding: 0.3rem 0 0.3rem 0.9rem;
+      font-style: italic;
+      line-height: 1.7;
+    }
+
+    .char-stat {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--paper-deep);
+      font-family: "Cinzel", serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--moss);
+    }
+
+    .char-stat strong {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ─── ハイライト ─── */
+    .highlights {
+      background:
+        linear-gradient(135deg, var(--paper-deep) 0%, var(--paper) 100%);
+    }
+
+    .h-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .h-card {
+      background: #fcf6e4;
+      padding: 1.8rem;
+      position: relative;
+      border-top: 3px solid var(--gold);
+      box-shadow: 0 8px 24px -10px var(--shadow);
+      transition: transform 0.3s;
+    }
+
+    .h-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .h-card-icon {
+      font-family: "Cinzel", serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+
+    .h-card-title {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 0.7rem;
+      line-height: 1.4;
+    }
+
+    .h-card-body {
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: var(--ink);
+    }
+
+    .h-card-tag {
+      display: inline-block;
+      margin-top: 0.8rem;
+      font-family: "Cinzel", serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--moss);
+    }
+
+    /* ─── ノーデンス ─── */
+    .nodens {
+      background:
+        radial-gradient(ellipse at top, rgba(200, 161, 85, 0.2), transparent 60%),
+        var(--sea-deep);
+      color: var(--paper);
+      text-align: center;
+    }
+
+    .nodens .section-title {
+      color: var(--paper);
+    }
+
+    .nodens .section-title-en {
+      color: var(--gold-soft);
+    }
+
+    .nodens .divider {
+      margin: 0 auto 3rem;
+    }
+
+    .nodens-quote {
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      color: var(--gold-soft);
+      max-width: 680px;
+      margin: 0 auto 4rem;
+      line-height: 2;
+    }
+
+    .nodens-quote::before,
+    .nodens-quote::after {
+      content: "❝";
+      font-size: 2em;
+      color: var(--gold);
+      line-height: 0;
+      vertical-align: -0.2em;
+    }
+
+    .nodens-quote::after {
+      content: "❞";
+    }
+
+    .wishes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      text-align: left;
+    }
+
+    .wish {
+      border: 1px solid var(--gold);
+      padding: 1.4rem;
+      background: rgba(200, 161, 85, 0.05);
+      backdrop-filter: blur(2px);
+    }
+
+    .wish-name {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .wish-want {
+      font-size: 0.85rem;
+      color: var(--gold-soft);
+      margin-bottom: 0.7rem;
+      line-height: 1.6;
+    }
+
+    .wish-got {
+      font-family: "Cinzel", serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--paper);
+      border-top: 1px solid rgba(200, 161, 85, 0.3);
+      padding-top: 0.6rem;
+    }
+
+    /* ─── エピローグ ─── */
+    .epilogue {
+      background: var(--paper);
+      text-align: center;
+      padding: 8rem 2rem;
+    }
+
+    .epilogue-mark {
+      font-family: "Cinzel", serif;
+      color: var(--gold);
+      letter-spacing: 0.5em;
+      margin-bottom: 1.5rem;
+    }
+
+    .epilogue h2 {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .epilogue p {
+      max-width: 600px;
+      margin: 0 auto 1.2rem;
+      line-height: 2;
+      color: var(--sea);
+    }
+
+    .epilogue-end {
+      margin-top: 3rem;
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      color: var(--gold);
+    }
+
+    footer {
+      background: var(--ink);
+      color: var(--gold-soft);
+      text-align: center;
+      padding: 2rem;
+      font-family: "Cinzel", serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+    }
+
+    /* ─── 装飾 ─── */
+    .ornament {
+      text-align: center;
+      color: var(--gold);
+      font-size: 1.2rem;
+      margin: 3rem 0;
+      letter-spacing: 1.5em;
+    }
+
+    /* ─── レスポンシブ ─── */
+    @media (max-width: 600px) {
+      section {
+        padding: 4rem 1.5rem;
+      }
+
+      .hero-info {
+        gap: 1.5rem;
+      }
+
+      .timeline-track {
+        padding-left: 1.8rem;
+        margin-left: 0.5rem;
+      }
+
+      .timeline-item::before {
+        left: -2.3rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ━━━ HERO ━━━ -->
+  <header class="hero">
+    <div class="hero-meta">CALL OF CTHULHU · SCENARIO LOG · 3RD PARTY</div>
+    <h1 class="hero-title">絶望の<span>孤島</span></h1>
+    <p class="hero-sub">沖縄行きのフェリーは嵐に呑まれた。<br>探索者たちが目を覚ました先は——名もなき孤島。</p>
+    <div class="hero-info">
+      <div>
+        <div class="hero-info-label">System</div>
+        <div class="hero-info-value">Call of Cthulhu</div>
+      </div>
+      <div>
+        <div class="hero-info-label">Players</div>
+        <div class="hero-info-value">5名</div>
+      </div>
+      <div>
+        <div class="hero-info-label">Status</div>
+        <div class="hero-info-value">Survived</div>
+      </div>
+      <div>
+        <div class="hero-info-label">Result</div>
+        <div class="hero-info-value">Cleared</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ━━━ あらすじ ━━━ -->
+  <section class="story">
+    <div class="section-num">— I —</div>
+    <h2 class="section-title">あらすじ</h2>
+    <p class="section-title-en">Synopsis</p>
+    <div class="divider"></div>
+
+    <div class="story-text">
+      <p>沖縄旅行のフェリーが嵐で転覆。探索者たちが目覚めたのは、岩礁に挟まれた狭い砂浜だった。見知った顔ばかりの7人の中に、ひとりだけ知らない少女——一式若葉が混じっていた。</p>
+
+      <p>砂浜の奥にある粗末な小屋には、白骨化した遺体と、10年前の手記、地図、頑丈なスーツケース。スーツケースから出てきたのは拳銃。手記には「森の寺院を調べていれば」という無念。怪物に襲われた、と。</p>
+
+      <p>探索組と待機組に分かれて行動を開始。森の中で本物の怪物——ナイトゴーン2体に遭遇するも、秘神の銃と光里の拳（とパンチ失敗祭り）でなんとか撃退。寺院の地下では古い石版が見つかり、海の神「ノーデンス」を呼ぶ呪文が記されていた。
+      </p>
+
+      <p>海を割って降臨したノーデンスに、それぞれの願いを差し出す。芸術と漫才で楽しませた対価として、銀の鍵の使い方、戦いの力、回復魔法、モテ期、そしてコミュニケーションの本——願いはすべて叶えられた。</p>
+
+      <p>銀の鍵を9回ひねって、それぞれの帰るべき場所へ。集合写真と、キャンプの約束を残して、絶望の孤島での旅は幕を閉じた。</p>
+    </div>
+  </section>
+
+  <!-- ━━━ タイムライン ━━━ -->
+  <section class="timeline">
+    <div class="section-num">— II —</div>
+    <h2 class="section-title">あの日の航跡</h2>
+    <p class="section-title-en">Voyage Log</p>
+    <div class="divider"></div>
+
+    <div class="timeline-track">
+      <div class="timeline-item">
+        <div class="timeline-act">ACT 01</div>
+        <div class="timeline-head">漂着、そして奇妙な顔合わせ</div>
+        <div class="timeline-body">
+          目覚めた7人。ひとりだけ知らない若葉。「難破したからナンパ」「私"ナルト"だったわ」と早速ノリが事故り始め、走り出して鈴葉が転倒——<span class="roll fail">致命的失敗
+            99</span>。盗電王ちゃんは早速ペンディング状態の電気を盗もうとして失敗。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-act">ACT 02</div>
+        <div class="timeline-head">小屋の白骨と、10年越しの手記</div>
+        <div class="timeline-body">
+          砂浜奥の掘っ立て小屋。扉を退かすと、白骨化した遺体。空き缶、手作りの槍、地図、スーツケース。手記には「森の中の寺院」「あの怪物」の文字。桟が幸運<span class="roll crit">クリティカル
+            1</span>でスーツケースの鍵を開け、中から拳銃。射撃80を持つ秘神に託される。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-act">ACT 03</div>
+        <div class="timeline-head">分隊 — 森組と待機組</div>
+        <div class="timeline-body">
+          森へ向かうのは桟・鈴葉・光里・秘神。残るのは若葉・有希・理人。待機組は怖い話のはずがいつの間にか「友達になった」「秘密結社B派に入る」と、なんだか温かい時間に。理人がコイ（学名: Cyprinus
+          carpio）の解説を始める。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-act">ACT 04</div>
+        <div class="timeline-head">ナイトゴーン襲来</div>
+        <div class="timeline-body">
+          森の奥、寺院の前。羽ばたきと共に降り立った巨大なコウモリのような怪物2体。光里のパンチが<span
+            class="roll fail">致命的失敗</span>を連発し、ついには掴まれて空へ。秘神が補正-10の難射ち<span class="roll crit">スペシャル</span>×2で救出。最後は<span
+            class="roll crit">クリティカル</span>で一閃、死にました。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-act">ACT 05</div>
+        <div class="timeline-head">寺院の石版、そして恋バナ事件</div>
+        <div class="timeline-body">
+          寺院の地下、古語の石版。鈴葉が知識ロール成功で解読——禍蛇州（かだす）の王ノーデンスを呼ぶ呪文。それはそうと桟が「無人島で一番タイプなの誰？」と切り出し、鈴葉のメンタルが半壊。「もうやだ若葉さん助けて……」
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-act">ACT 06</div>
+        <div class="timeline-head">合流、そして死体解体</div>
+        <div class="timeline-body">
+          浜辺に戻ると、待機組は妙に仲良くなっていた。理人にっこにこ。「若葉と友達になった」。怪物の死体を持ち帰るために有希と理人が解体——善宮司が味見して<span
+            class="roll fail">SAN-1</span>。鈴葉、変装スキルで光里に着替えを提供。「気持ち悪…(ボソッ)」。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-act">ACT 07</div>
+        <div class="timeline-head">海神ノーデンスの降臨</div>
+        <div class="timeline-body">
+          浜辺で呪文を唱えると海が割れ、貝殻の馬車に乗った神が雷を引き連れて降臨。「我輩を楽しませよ」——桟の嘘雑学はボッシュート。鈴葉のお絵描きが効いた。各自の願いが叶えられ、銀の鍵の使い方も伝授された。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-act">ACT 08</div>
+        <div class="timeline-head">夕日、集合写真、銀の鍵</div>
+        <div class="timeline-body">
+          鈴葉が写真術で集合写真を1枚。有希が「ばり盛れた」と言いながらインスタにアップ予告。「我は願う。鍵に宿りし魔力の導きに従い、我が夢見し地へと旅立つことを」。9回ひねれば、それぞれの場所へ。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament">✦ ✦ ✦</div>
+
+  <!-- ━━━ キャラクター ━━━ -->
+  <section class="characters">
+    <div class="section-num">— III —</div>
+    <h2 class="section-title">登場人物</h2>
+    <p class="section-title-en">Dramatis Personae</p>
+    <div class="divider"></div>
+
+    <div class="char-grid">
+
+      <div class="char-card">
+        <div class="char-tag">KPC · 01</div>
+        <div class="char-name">一式 若葉</div>
+        <div class="char-reading">いっしき わかば</div>
+        <span class="char-epithet">ミステリアス系不登校</span>
+        <p class="char-desc">普段は研究室にこもっている謎多き少女。皆と初対面のはずなのに、なぜか妙に距離を詰めてくる。心理学99で人の嘘を即見抜き、APP17でメイクなしの美少女。</p>
+        <p class="char-quote">「世界の均衡を保つ為に私と協力する秘密結社があるんだ。バランスを取る派閥だからB派！」</p>
+        <div class="char-stat">心理学 <strong>99</strong> · APP <strong>17</strong> · 願い: 白骨遺体を家族の元へ</div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-tag">PC · 02</div>
+        <div class="char-name">出根宮 桟</div>
+        <div class="char-reading">でねみや かけはし</div>
+        <span class="char-epithet">盗電王</span>
+        <p class="char-desc">学園で悪名高い盗電王にして自称探偵。家族なし、友達もあんまり。距離感がバグっており、化け物の前で恋バナを始めた女。スーツケースの鍵を幸運1で開ける天運の持ち主。自伝出版済。</p>
+        <p class="char-quote">「いつ死ぬかわからない極限状況でやる恋バナは通常の5倍くらいおもろいの！！」</p>
+        <div class="char-stat">跳躍 <strong>61</strong> · 盗電 <strong>5</strong> · 願い: コミュニケーションの本</div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-tag">PC · 03</div>
+        <div class="char-name">善宮司 有希</div>
+        <div class="char-reading">ぜんぐーじ ゆうき</div>
+        <span class="char-epithet">関西の医者志望</span>
+        <p class="char-desc">関西弁でぎゃはははと笑い、女好きを公言する医者志望。ノーデンスとの交渉を一手に引き受けたMVP。理人の親友であり、解剖学に異常な好奇心を見せる。死体を味見した男。</p>
+        <p class="char-quote">「茶ァでもしばきにいこなぁ！！！！」</p>
+        <div class="char-stat">交渉力 <strong>★★★★★</strong> · APP <strong>15→16</strong> · 願い: モテ期</div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-tag">PC · 04</div>
+        <div class="char-name">権陽 鈴葉</div>
+        <div class="char-reading">けんよう すずは</div>
+        <span class="char-epithet">守りたいものがある後輩</span>
+        <p class="char-desc">
+          おとなしくて素直な後輩。機械修理20でスペシャル、変装80、写真術80、芸術80と多芸。料理上手で刃物の扱いを習った経験あり。「鈴葉泣かせると何人かのセコムが動く」設定持ち。若葉に懐く。</p>
+        <p class="char-quote">「私にも…守りたいものはありますから」</p>
+        <div class="char-stat">機械修理 <strong>20→8でSP</strong> · 願い: 守れる力 (マーシャルアーツ+49)</div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-tag">PC · 05</div>
+        <div class="char-name">久遠 理人</div>
+        <div class="char-reading">くどう りひと</div>
+        <span class="char-epithet">人見知りの天才医学生</span>
+        <p class="char-desc">他人と目を合わせない無口な医学徒。だが有希が絡むと饒舌になり、コイ（鯉、学名: Cyprinus
+          carpio）の解説を始める。若葉と友達になってにっこにこ。銀の鍵と回復魔法を持ち帰る。</p>
+        <p class="char-quote">「コイ（鯉、学名：Cyprinus carpio）は、コイ科に分類される魚の一種だ」</p>
+        <div class="char-stat">医学 <strong>80</strong> · 銀の鍵所持 · 願い: 回復魔法</div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-tag">KPC · 06</div>
+        <div class="char-name">秘神</div>
+        <div class="char-reading">ひしん</div>
+        <span class="char-epithet">桟のお守り係</span>
+        <p class="char-desc">桟の幼馴染ポジ。なぜか拳銃80。語尾の💧‬が特徴的で、心労が滲む。ナイトゴーン戦で命中率の鬼となり、補正-10の状況下でもクリティカル連打で2体撃破した本セッションの戦闘MVP。
+        </p>
+        <p class="char-quote">「(地獄過ぎないかこの空気)」</p>
+        <div class="char-stat">拳銃 <strong>80→85</strong> · マーシャルアーツ <strong>80</strong> · 願い: 筋肉</div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-tag">PC · 07</div>
+        <div class="char-name">雨ケ崎 光里</div>
+        <div class="char-reading">あまがさき ひかり</div>
+        <span class="char-epithet">頼れる先輩 (パンチ以外)</span>
+        <p class="char-desc">落ち着いた1年上の先輩。判断力もあり頼りになるが、なぜかこぶしロールでファンブル連発。ナイトゴーンに掴まれて空へと連れ去られた本セッション最大の被害者にして名場面提供者。</p>
+        <p class="char-quote">「あだっ……なんとか、ありがとう…」</p>
+        <div class="char-stat">こぶし <strong>50→70</strong> · ファンブル数 <strong>2</strong> · 願い: 戦える力</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ━━━ ハイライト ━━━ -->
+  <section class="highlights">
+    <div class="section-num">— IV —</div>
+    <h2 class="section-title">名場面ピックアップ</h2>
+    <p class="section-title-en">Highlights</p>
+    <div class="divider"></div>
+
+    <div class="h-grid">
+
+      <div class="h-card">
+        <div class="h-card-icon">I.</div>
+        <div class="h-card-title">「ごめん、私"ナルト"だったわ」</div>
+        <div class="h-card-body">
+          ナルト走りを提案した桟が、走り出した結果、転倒。1d3で2ダメージを<strong>鈴葉が</strong>受ける謎現象。鈴葉は応急手当で回復——目星の意味、なし。
+        </div>
+        <div class="h-card-tag">— セッション開幕</div>
+      </div>
+
+      <div class="h-card">
+        <div class="h-card-icon">II.</div>
+        <div class="h-card-title">死体味見事件</div>
+        <div class="h-card-body">
+          ナイトゴーンの死体を解体中、有希が無言で<strong>ぺろり</strong>。「アホSAN値-1」というGM裁定で正気度を1だけ削られる。「知らんかった！！！マズイの先があるなんて！！！！」
+        </div>
+        <div class="h-card-tag">— 善宮司の蛮行</div>
+      </div>
+
+      <div class="h-card">
+        <div class="h-card-icon">III.</div>
+        <div class="h-card-title">秘神の銃神タイム</div>
+        <div class="h-card-body">
+          光里がナイトゴーンに掴まれて空へ。秘神は撃てば光里に当たるかもしれない難射ち。<strong>補正-10で2連スペシャル</strong>、続くターン<strong>クリティカル</strong>でB体即死。本人「不手際です、ごめんなさい…」
+        </div>
+        <div class="h-card-tag">— ナイトゴーン戦</div>
+      </div>
+
+      <div class="h-card">
+        <div class="h-card-icon">IV.</div>
+        <div class="h-card-title">恋バナで発生した事故</div>
+        <div class="h-card-body">
+          寺院の地下で桟が「無人島で一番タイプなの誰？女でもいいぞ」。鈴葉「うぇ…っ！？」。場が地獄と化し、戻った後に若葉に泣きつく事態に。「あんな所で恋バナ仕掛けてくるとかありえないじゃないですか…っ！！」
+        </div>
+        <div class="h-card-tag">— 寺院探索</div>
+      </div>
+
+      <div class="h-card">
+        <div class="h-card-icon">V.</div>
+        <div class="h-card-title">コイ・ケイト・コイ</div>
+        <div class="h-card-body">
+          「鯉バナならこちらもしていた」と理人がコイの学名を語り出す名場面。<strong>Cyprinus carpio</strong>。マゴイ・ノゴイ。鈴葉「意味わかんないぃ…！！！」。理人は鈴葉にもこの解説を完璧に届けた。
+        </div>
+        <div class="h-card-tag">— 久遠 理人</div>
+      </div>
+
+      <div class="h-card">
+        <div class="h-card-icon">VI.</div>
+        <div class="h-card-title">ボッシュートになります</div>
+        <div class="h-card-body">
+          ノーデンスを楽しませようと「すけべ蟹、ウェーイwww」と嘘雑学を始めた桟。床が割れて落下。すぐ戻ってきた。「お尻が二つに割れちゃった……」「自由落下運動はしていた、ワープではなさそうだ」
+        </div>
+        <div class="h-card-tag">— ノーデンス降臨</div>
+      </div>
+
+      <div class="h-card">
+        <div class="h-card-icon">VII.</div>
+        <div class="h-card-title">B派、結成</div>
+        <div class="h-card-body">
+          待機組での若葉の宣言。「世界の均衡を保つ為の秘密結社B派！」。有希「え？入る」。理人「有希が入るなら俺も入る」。森でナイトゴーンと戦っている横で、こちらは仲良し3人組が完成した。
+        </div>
+        <div class="h-card-tag">— 待機組</div>
+      </div>
+
+      <div class="h-card">
+        <div class="h-card-icon">VIII.</div>
+        <div class="h-card-title">理人にっこにこ</div>
+        <div class="h-card-body">
+          森組が戻ってくると、理人は人生で見たことのないような笑顔。「……若葉と友達になった」。生まれて初めて女子と話した男の進捗報告。直後に鈴葉とも友達になりたいと宣言。成長。
+        </div>
+        <div class="h-card-tag">— 帰還後</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ━━━ ノーデンスの願い ━━━ -->
+  <section class="nodens">
+    <div class="section-num">— V —</div>
+    <h2 class="section-title">海神ノーデンスの恩寵</h2>
+    <p class="section-title-en">The Wishes Granted</p>
+    <div class="divider"></div>
+
+    <p class="nodens-quote">
+      我はカダスの地を治めし王、ノーデンスである。<br>
+      ……いやはや、楽しませてもらったぞう。
+    </p>
+
+    <div class="wishes">
+      <div class="wish">
+        <div class="wish-name">一式 若葉</div>
+        <div class="wish-want">「あの遺体を、家族の元へ」</div>
+        <div class="wish-got">→ 丁寧に整えて送還</div>
+      </div>
+      <div class="wish">
+        <div class="wish-name">久遠 理人</div>
+        <div class="wish-want">「人命救助に使える力を」</div>
+        <div class="wish-got">→ 銀の鍵 + 回復魔法 (癒し·accelerate)</div>
+      </div>
+      <div class="wish">
+        <div class="wish-name">権陽 鈴葉</div>
+        <div class="wish-want">「皆を守れる力が欲しい」</div>
+        <div class="wish-got">→ マーシャルアーツ +49</div>
+      </div>
+      <div class="wish">
+        <div class="wish-name">雨ケ崎 光里</div>
+        <div class="wish-want">「鈴葉と同じ。守れる力を」</div>
+        <div class="wish-got">→ こぶし(パンチ) +20</div>
+      </div>
+      <div class="wish">
+        <div class="wish-name">善宮司 有希</div>
+        <div class="wish-want">「モテ期やな！！！！！」</div>
+        <div class="wish-got">→ APP +1</div>
+      </div>
+      <div class="wish">
+        <div class="wish-name">出根宮 桟</div>
+        <div class="wish-want">「人とのコミュニケーションの取り方」</div>
+        <div class="wish-got">→ ベストセラーの自己啓発本 + 信用 +20</div>
+      </div>
+      <div class="wish">
+        <div class="wish-name">秘神</div>
+        <div class="wish-want">「もう少し筋肉が欲しい」</div>
+        <div class="wish-got">→ STR +2</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ━━━ エピローグ ━━━ -->
+  <section class="epilogue">
+    <div class="epilogue-mark">— FINIS —</div>
+    <h2>こうして探索者たちの<br>ひとつの旅路は幕を迎えた。</h2>
+    <p>
+      銀の鍵をひねれば、それぞれの帰るべき場所へ。<br>
+      若葉は研究所、有希は寮、理人は有希の家、桟は探偵事務所、<br>
+      鈴葉と光里は自分の家。
+    </p>
+    <p>
+      「ただいま」と言って迎えてくれる誰かがいる。<br>
+      そのあとは、皆でキャンプに行くらしい。
+    </p>
+    <div class="epilogue-end">— And the journey continues —</div>
+  </section>
+
+  <footer>
+    ZETSUBOU NO KOTOU · 3RD PARTY · CALL OF CTHULHU SESSION LOG
+  </footer>
+
+</body>
+
+</html>
